@@ -4,6 +4,8 @@ import pickle
 import os
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ─── Page Config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -149,12 +151,12 @@ st.markdown('<hr class="divider">', unsafe_allow_html=True)
 # ─── Load Model & Artifacts ────────────────────────────────────────────────────
 @st.cache_resource
 def load_artifacts():
-    model = load_model("gene_model.h5")
-    with open("dna_tokenizer.pkl", "rb") as f:
+    model = load_model(os.path.join(BASE_DIR, "gene_model.h5"))
+    with open(os.path.join(BASE_DIR, "dna_tokenizer.pkl"), "rb") as f:
         dna_tokenizer = pickle.load(f)
-    with open("tfidf.pkl", "rb") as f:
+    with open(os.path.join(BASE_DIR, "tfidf.pkl"), "rb") as f:
         tfidf = pickle.load(f)
-    with open("label_encoder.pkl", "rb") as f:
+    with open(os.path.join(BASE_DIR, "label_encoder.pkl"), "rb") as f:
         le = pickle.load(f)
     return model, dna_tokenizer, tfidf, le
 
